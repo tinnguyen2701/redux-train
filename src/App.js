@@ -1,8 +1,12 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import logo from './logo.svg';
 import './App.css';
+import store from './store';
+import { UPDATE_COUNT } from './duck';
+import { createAction } from './dorothy/utils';
 
-function App() {
+function App({count}) {
   return (
     <div className="App">
       <header className="App-header">
@@ -18,9 +22,16 @@ function App() {
         >
           Learn React
         </a>
+        <button type='button' 
+          onClick={() => store.dispatch(createAction(UPDATE_COUNT, count + 1))}>
+            Increase
+        </button>
+        <span>{count}</span>
       </header>
     </div>
   );
 }
 
-export default App;
+export default connect(state => ({
+  count: state.count
+}))(App);
